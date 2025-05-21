@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fast & Furious</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      background: black;
+      color: #ffcc00;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+      font-size: 2em;
+    }
+    .movies {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .movie {
+      background: #222;
+      border: 2px solid #ffcc00;
+      border-radius: 12px;
+      width: 200px;
+      padding: 10px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .movie:hover {
+      transform: scale(1.05);
+      background: #333;
+    }
+    .movie img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+    .movie-title {
+      margin-top: 10px;
+      font-size: 1em;
+      font-weight: bold;
+    }
+  
+    @media (max-width: 600px) {
+      .movies {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+      }
+      .movie {
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .movie img {
+        height: auto;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+<h1>🚨 Fast & Furious Universe</h1>
+
+<div class="movies" id="movies"></div>
+
+<script>
+const movies = [
+  { title: "The Fast and the Furious-2001", video: "https://sxic.madrigalcajig.sbs:443/v4/ox/itaov/index-f1-v1-a1.txt", image: "https://i.pinimg.com/736x/39/93/1f/39931fd280f4cefd21d733fa16b6ce38.jpg" },
+  { title: "Fast 2 Furious-2003", video: "https://scvo.sperlinglayma.sbs:443/v4/xq/bnb5s/index-f2-v1-a1.txt", image: "https://xl.movieposterdb.com/12_03/2003/322259/xl_322259_aa544bd8.jpg" },
+  { title: "The Fast and the Furious: Tokyo Drift-2006", video: "https://sr81.griseldakro.sbs:443/v4/xq/vluy1/index-f2-v1-a1.txt", image: "https://i.ebayimg.com/images/g/65EAAOSwxNljonVb/s-l400.jpg" },
+  { title: "Fast & Furious-2009", video: "https://cdn-1.celestialodyssey.site/video-stream/a9803878/playlist.m3u8", image: "https://m.media-amazon.com/images/M/MV5BM2Y1YzhkNzUtMzhmZC00OTFkLWJjZDktMWYzZmQ0Y2Y5ODcwXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
+  { title: "Fast Five-2011", video: "https://cdn-1.celestialodyssey.site/video-stream/55cf4cf7/playlist.m3u8", image: "https://lh3.googleusercontent.com/proxy/PmOF7tf_GuNqa1giywhfdLbXQVhUgsr9ETuSckOsXJNdWX994eeU6RfUmFfHH5KSw2FxxqB2npWNGGQJY84xTM5hHFoGNKQRJ38-4fW0QWdcM8LbO_vmuZA" },
+  { title: "Fast & Furious 6-2013", video: "https://cdn-1.celestialodyssey.site/video-stream/dc5f07a0/playlist.m3u8", image: "https://media0078.elcinema.com/uploads/_315x420_9bd7b0276ea759c1c7d01a39f2d736cff3706d40daa1263891c60230811a551c.jpg" },
+  { title: "Furious 7-2015", video: "https://cdn-1.celestialodyssey.site/video-stream/fbca131b/playlist.m3u8", image: "https://posterspy.com/wp-content/uploads/2023/06/DAF_WEB_TEMPLATE_1000x1500px.jpg" },
+  { title: "The Fate of the Furious-2017", video: "https://cdn-1.celestialodyssey.site/video-stream/4372f73a/playlist.m3u8", image: "https://img.awafim.tv/images/mjMVbZbQeR9o.webp" },
+  { title: "F9: The Fast Saga-2021", video: "https://cdn-1.celestialodyssey.site/video-stream/d44801f0/playlist.m3u8", image: "https://blob.cede.ch/catalog/17408000/17408855_1_92.jpg" },
+  { title: "Fast X-2023", video: "https://cdn-1.celestialodyssey.site/video-stream/cee76b74/playlist.m3u8", image: "https://cdn.kinocheck.com/i/w=1200/302cs4vsno.jpg" },
+  ];
+
+const container = document.getElementById('movies');
+movies.forEach((movie, index) => {
+  const div = document.createElement('div');
+  div.className = 'movie';
+  div.innerHTML = `
+    <img src="${movie.image}" alt="${movie.title}">
+    <div class="movie-title">${movie.title}</div>
+  `;
+  div.onclick = () => {
+    const url = `player.html?title=${encodeURIComponent(movie.title)}&video=${encodeURIComponent(movie.video)}&index=${index}`;
+    window.location.href = url;
+  };
+  container.appendChild(div);
+});
+</script>
+
+</body>
+</html>
