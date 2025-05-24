@@ -2,75 +2,180 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Fast & Furious</title>
+  <title>Fast & Furious Universe</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Montserrat:wght@300;400;600;700&display=swap');
+    
+    :root {
+      --primary: #FFD700;
+      --secondary: #C0C0C0;
+      --dark: #0A0A0A;
+      --darker: #050505;
+      --accent: #E50914;
+    }
+    
     body {
-      background: black;
-      color: #ffcc00;
-      font-family: Arial, sans-serif;
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+      color: white;
+      min-height: 100vh;
       margin: 0;
-      padding: 20px;
-      text-align: center;
+      padding: 0;
     }
-    h1 {
-      margin-bottom: 20px;
-      font-size: 2em;
+    
+    .title-font {
+      font-family: 'Orbitron', sans-serif;
     }
-    .movies {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
+    
+    .movie-card {
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transform-style: preserve-3d;
+      perspective: 1000px;
     }
-    .movie {
-      background: #222;
-      border: 2px solid #ffcc00;
-      border-radius: 12px;
-      width: 200px;
-      padding: 10px;
-      cursor: pointer;
-      transition: transform 0.3s;
+    
+    .movie-card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 25px 40px rgba(229, 9, 20, 0.3);
     }
-    .movie:hover {
+    
+    .movie-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%);
+      border-radius: 0.75rem;
+      z-index: 1;
+    }
+    
+    .movie-poster {
+      transition: transform 0.5s ease;
+    }
+    
+    .movie-card:hover .movie-poster {
       transform: scale(1.05);
-      background: #333;
     }
-    .movie img {
-      width: 100%;
-      height: 280px;
-      object-fit: cover;
-      border-radius: 10px;
+    
+    .movie-info {
+      transform: translateZ(30px);
     }
-    .movie-title {
-      margin-top: 10px;
-      font-size: 1em;
-      font-weight: bold;
+    
+    .search-box {
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+      transition: all 0.3s ease;
     }
-  
-    @media (max-width: 600px) {
-      .movies {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-      }
-      .movie {
-        width: 100%;
-        box-sizing: border-box;
-      }
-      .movie img {
-        height: auto;
-      }
+    
+    .search-box:focus {
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
     }
-
+    
+    .header-gradient {
+      background: linear-gradient(90deg, rgba(229,9,20,0.8) 0%, rgba(255,215,0,0.8) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .year-badge {
+      background: rgba(255, 215, 0, 0.2);
+      backdrop-filter: blur(5px);
+    }
+    
+    .play-icon {
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+    
+    .movie-card:hover .play-icon {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+    
+    .grid-loader {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .skeleton-card {
+      background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+    
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-fade-in {
+      animation: fadeIn 0.6s ease forwards;
+    }
+    
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
   </style>
 </head>
-<body>
+<body class="relative overflow-x-hidden">
+  <!-- Animated Background Elements -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute top-0 left-0 w-64 h-64 bg-yellow-500 rounded-full mix-blend-overlay opacity-10 blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-96 h-96 bg-red-600 rounded-full mix-blend-overlay opacity-10 blur-3xl"></div>
+  </div>
 
-<h1>🚨 Fast & Furious Universe</h1>
-<input id="searchBar" placeholder="Search Fast & Furious movies..." style="width: calc(100% - 40px);max-width: 100%;margin: 20px auto;padding: 10px 15px;font-size: 1em;border-radius: 8px;border: 2px solid #ffcc00;background: #111;color: #ffcc00;box-shadow: 0 0 10px #ffcc00a0;display: block;" type="text"/>
-<div class="movies" id="movies"></div>
-<script>
+  <div class="container mx-auto px-4 py-8 relative z-10">
+    <!-- Header -->
+    <header class="text-center mb-12">
+      <div class="flex justify-center items-center mb-4">
+        <i class="fas fa-car text-4xl mr-3 text-yellow-500"></i>
+        <h1 class="title-font text-5xl md:text-6xl font-bold header-gradient">
+          FAST & FURIOUS UNIVERSE
+        </h1>
+      </div>
+      <p class="text-gray-300 max-w-2xl mx-auto text-lg">
+        Explore the high-octane world of Dominic Toretto and his family. Ride or die.
+      </p>
+    </header>
+
+    <!-- Search Box -->
+    <div class="max-w-2xl mx-auto mb-12 relative">
+      <div class="relative">
+        <input 
+          id="searchBar" 
+          type="text" 
+          placeholder="Search Fast & Furious movies..." 
+          class="w-full py-4 px-6 rounded-xl bg-gray-900 border-2 border-yellow-500/30 focus:border-yellow-500 text-white placeholder-gray-400 focus:outline-none search-box"
+        >
+        <i class="fas fa-search absolute right-6 top-1/2 transform -translate-y-1/2 text-yellow-500"></i>
+      </div>
+    </div>
+
+    <!-- Movies Grid -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6" id="movies"></div>
+
+    <!-- Loading Skeleton (hidden by default) -->
+    <div class="grid-loader" id="loadingSkeleton" style="display: none;">
+      <div class="skeleton-card h-80 rounded-xl"></div>
+      <div class="skeleton-card h-80 rounded-xl"></div>
+      <div class="skeleton-card h-80 rounded-xl"></div>
+      <div class="skeleton-card h-80 rounded-xl"></div>
+      <div class="skeleton-card h-80 rounded-xl"></div>
+    </div>
+  </div>
+
+  <script>
 const movies = [
   { title: "The Fast and the Furious-2001", video: "https://vip.opstream11.com/20220315/2054_7072464f/index.m3u8", image: "https://i.pinimg.com/736x/39/93/1f/39931fd280f4cefd21d733fa16b6ce38.jpg" },
   { title: "2 Fast 2 Furious-2003", video: "https://sojg.mejorados.sbs/v4/m9/hr8ku/cf-master.txt?v=1730956953", image: "https://xl.movieposterdb.com/12_03/2003/322259/xl_322259_aa544bd8.jpg" },
@@ -120,4 +225,6 @@ document.getElementById('searchBar').addEventListener('input', function () {
 </script>
 
 </body>
+</html>
+       
 </html>
